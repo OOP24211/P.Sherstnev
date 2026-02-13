@@ -1,6 +1,0 @@
-id,name,age,city,email,is_active,balance,created_at
-1,Иван Иванов,28,Москва,ivan@example.com,true,1520.75,2024-01-15
-2,Мария Петрова,34,Санкт-Петербург,maria.petrov@example.com,false,0.00,2023-11-02
-3,John Smith,45,New York,john.smith@example.com,true,98765.43,2022-07-19
-4,Анна Смирнова,22,Казань,anna.s@example.com,true,-150.50,2025-02-01
-5,李雷,30,Beijing,li.lei@example.cn,false,5400.00,2021-05-30
