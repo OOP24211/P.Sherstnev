@@ -6,7 +6,7 @@ public class WordCounter {
     private final Map<String, Integer> wordCounts = new HashMap<>();
     private long totalWords = 0;
 
-    // Чтение и подсчет
+    // Чтение и  подсчет
     public void readFile(File inputFile) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8))) {
             String line;

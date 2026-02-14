@@ -7,7 +7,7 @@ public class main  {
 
         try {
             counter.readFile(new File(Config.INPUT_FILE));      // Читаем
-            counter.saveReport(new File(Config.OUTPUT_FILE));   // Пишем результат
+            counter.saveReport(new File(Config.OUTPUT_FILE));   // Пишем  результат
         }
         catch (IOException e) {
             System.err.println("Произошла ошибка: " + e.getMessage());
