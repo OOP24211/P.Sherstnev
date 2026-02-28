@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WordCounter {
+public class WordTally {
     private final Map<String, Integer> wordCounts = new HashMap<>();
     private final long[] totalWords = {0}; // Используем массив, чтобы передавать по ссылке
 

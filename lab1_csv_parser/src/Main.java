@@ -15,7 +15,7 @@ public class Main {
             FileValidator fileValidator = new FileValidator();
             fileValidator.validate(inputFile);
 
-            WordCounter counter = new WordCounter();
+            WordTally counter = new WordTally();
             counter.execute(inputFile, outputFile);
 
             logger.info("Программа успешно завершила работу.");
