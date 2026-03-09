@@ -1,5 +1,6 @@
-package org.example;
+package org.example.ui;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,10 +12,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.example.network.MyClient;
 
 import java.util.function.Consumer;
 
 public class ChatLogic {
+
     public static void OpenChat(String roomName, StackPane rightPane){
         rightPane.getChildren().clear();                            // Убираем старый чат
         VBox chatBox = new VBox();                                  // Создаем пространство для чата
@@ -22,21 +25,30 @@ public class ChatLogic {
         HBox chatHeader = createHeader(roomName);                   // Заголовок комнаты
         final VBox messages = createMessagesContainer();            // "Хранилище" сообщений
         final ScrollPane scrollPane = setupScrollPane(messages);    // Скролл
-        HBox inputArea = createInputArea(messageInput -> sendMessage(messageInput, scrollPane, messages));
+        HBox inputArea = createInputArea(messageInput -> sendMessage(messageInput));
 
         chatBox.getChildren().addAll(chatHeader, scrollPane, inputArea);
         rightPane.getChildren().add(chatBox);
+
+        // --- MyClient ---
+        MyClient client = AppController.client.getClient();
+        client.setOnMessageReceived(text -> {
+            Platform.runLater(() -> {   //ГОВОРИТ ПОТОКУ ИНТЕРФЕЙСА "КАК ЗАКОНЧИШЬ СВОИ ДЕЛА, СДЕЛАЙ ЭТО"
+                Label newMessage = new Label(text);
+                StyleManager.newMessageStyle(newMessage);
+                messages.getChildren().add(newMessage);
+                Platform.runLater(() -> scrollPane.setVvalue(1.0));   // Прокрутка вниз
+            });
+        });
     }
 
-    private static void sendMessage(TextField messageInput, ScrollPane scrollPane, VBox messages){
+    private static void sendMessage(TextField messageInput){
         String text = messageInput.getText().trim();
         if (!text.isEmpty()) {
-            Label newMessage = new Label(text);
-            StyleManager.newMessageStyle(newMessage);
-
-            messages.getChildren().add(newMessage);
-            javafx.application.Platform.runLater(() -> scrollPane.setVvalue(1.0));      // Прокрутка вниз
-            messageInput.clear();                                                       // Очищает строку ввода после отправки
+            // --- MyClient ---
+            MyClient client = AppController.client.getClient();
+            client.send(text);                                       // Отправляем строку в сокет
+            messageInput.clear();                                    // Очищает строку ввода после отправки
         }
     }
 

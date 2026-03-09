@@ -1,11 +1,9 @@
-package org.example;
+package org.example.ui;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class PopUpWindowAddRoom {
@@ -34,6 +32,7 @@ public class PopUpWindowAddRoom {
 
         this.popUpWindowAddRoom.setVisible(false);                     // Делает НЕ видимым
         this.veil.setVisible(false);                                   // Делает НЕ видимым
+
         buttonSettings(sidebar, rightPane);
     }
 

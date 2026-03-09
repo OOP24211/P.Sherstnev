@@ -1,4 +1,4 @@
-package org.example;
+package org.example.ui;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
