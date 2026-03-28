@@ -1,0 +1,160 @@
+/* Единый стиль для ВСЕХ сообщений */
+.chat-message-bubble {
+    -fx-padding: 8 12 8 12;
+    -fx-background-radius: 15;
+    -fx-font-size: 14px;
+    -fx-max-width: 300px;
+    -fx-wrap-text: true;
+    -fx-background-color: #6200EE; /* Фиолетовый для всех */
+}
+
+/* Цвет текста внутри облачка */
+.chat-message-bubble .text, .chat-message-bubble {
+    -fx-text-fill: white;
+}
+
+.message-container {
+    -fx-padding: 5 10 5 10;
+}
+
+
+
+
+/* ==== class StyleManager ==== */
+.func-buttonStyle {
+    -fx-background-color: #6200EE;
+    -fx-background-radius: 25;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);
+    -fx-alignment: center;         /* Выравнивание внутри кнопки */
+}
+.func-buttonStyle:hover {
+    -fx-background-color: #7722FF;
+}
+.func-textFieldStyle {
+    -fx-background-color: #F4F4F4;
+    -fx-background-radius: 5;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 5;
+    -fx-border-width: 0 0 1 1; /* Линия снизу и слева */
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #999999; /* Цвет подсказки */
+}
+.func-messageBubble {
+    -fx-background-color: #BB86FC;
+    -fx-text-fill: black;
+    -fx-padding: 8 15 8 15;
+    -fx-background-radius: 15;
+    -fx-font-size: 14px;
+}
+
+
+/* ==== class Sidebar ==== */
+.sidebar-pane {
+    -fx-background-color: #A5A5A5;
+    -fx-border-color: #808080;
+    -fx-border-width: 0 2 0 0;
+}
+.sidebar-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+
+/* ==== class RoomComponent extends Button ==== */
+.room-item {
+    -fx-background-color: #E0E0E0;
+    -fx-background-radius: 5;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+.room-item:hover {
+    -fx-background-color: #c8c8c8;
+}
+.active-room {
+    -fx-background-color: #EDE7F6; /* Мягкий лавандовый */
+    -fx-text-fill: #6200EE;        /* Насыщенный текст */
+    -fx-font-weight: bold;
+    /* Тонкая полоска слева, как в */
+    -fx-border-color: #6200EE;
+    -fx-border-width: 0 0 0 4;
+}
+
+
+/* ==== class PopUpWindowAddRoom ==== */
+.popup-window {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 0);
+}
+.popup-header {
+    -fx-background-color: #2C2C2C;
+    -fx-background-radius: 10 10 10 10;
+    -fx-padding: 10 15 10 15;         /*Отступы внутри плашки*/
+}
+.popup-header-text {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-fill: white;
+}
+.popup-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+.popup-veil {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* ==== class ChatLogic  ==== */
+.chat-header {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 15;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 1 0;
+}
+.chat-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-fill: #333333;
+}
+.chat-input-area {
+    -fx-padding: 15;
+    -fx-alignment: center;
+    -fx-background-color: white;
+    -fx-border-color: #808080;
+    -fx-border-width: 2 0 0 0;
+}
+.message-input {
+    -fx-background-radius: 20;
+    -fx-padding: 10;
+    -fx-background-color: #f0f0f0;
+}
+.message-input:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #6200EE;
+    -fx-border-radius: 20;
+}
+.chat-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+.chat-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* ==== class AppController ====*/
+.right-pane {
+    -fx-background-color: #ffffff;
+}
+.placeholder-text {
+    -fx-font-size: 20px;
+    -fx-fill: #A5A5A5; /* Светло-серый*/
+    -fx-font-weight: bold;
+}
