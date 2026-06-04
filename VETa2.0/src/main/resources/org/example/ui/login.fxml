@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+
+<VBox alignment="CENTER" spacing="15.0"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.ui.LoginController"
+      style="-fx-background-color: #1e1e1e;">
+    <stylesheets>
+        <URL value="@style.css"/>
+    </stylesheets>
+    <padding>
+        <Insets bottom="30.0" left="40.0" right="40.0" top="30.0"/>
+    </padding>
+
+    <Label text="VETa Messenger" textFill="WHITE">
+        <font><Font name="System Bold" size="26.0"/></font>
+    </Label>
+
+    <Label text="Войдите или создайте аккаунт"
+           style="-fx-text-fill: #888; -fx-font-size: 13;"/>
+
+    <TextField fx:id="loginField" promptText="Логин" styleClass="text-field" maxWidth="280"/>
+    <PasswordField fx:id="passwordField" promptText="Пароль" styleClass="text-field" maxWidth="280"/>
+
+    <HBox spacing="12.0" alignment="CENTER">
+        <Button text="Войти" onAction="#onLoginClick"
+                prefWidth="100.0" prefHeight="38"
+                styleClass="btn-create"/>
+        <Button text="Регистрация" onAction="#onRegisterClick"
+                prefWidth="130.0" prefHeight="38"
+                styleClass="btn-primary"/>
+    </HBox>
+
+    <Label fx:id="statusLabel" textFill="#ff5555" wrapText="true"
+           style="-fx-font-size: 13; -fx-alignment: CENTER;"/>
+</VBox>
