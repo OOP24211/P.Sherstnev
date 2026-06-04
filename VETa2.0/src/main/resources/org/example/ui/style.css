@@ -1,0 +1,159 @@
+/* ═══════════════════════════════════════════
+   VETa Messenger — тёмная тема
+   ═══════════════════════════════════════════ */
+
+.root {
+    -fx-background-color: #1e1e1e;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ── ListView ─────────────────────────────── */
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 4 0;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 6;
+}
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #444;
+    -fx-background-radius: 3;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #d4d4d4;
+    -fx-padding: 10 14;
+    -fx-background-radius: 6;
+    -fx-font-size: 14px;
+}
+.list-cell:filled:hover {
+    -fx-background-color: #2a2a2a;
+}
+.list-cell:filled:selected {
+    -fx-background-color: #2d4263;
+    -fx-text-fill: #ffffff;
+}
+
+/* ── Пузыри сообщений ─────────────────────── */
+.bubble {
+    -fx-padding: 8 12 6 12;
+    -fx-background-radius: 14;
+    -fx-max-width: 500;
+    -fx-min-width: 60;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 4, 0, 0, 2);
+}
+
+.my-bubble {
+    -fx-background-color: #005c4b;
+    -fx-background-radius: 14 14 4 14;
+}
+.other-bubble {
+    -fx-background-color: #2b2b2b;
+    -fx-background-radius: 14 14 14 4;
+}
+
+.message-label {
+    -fx-text-fill: #f0f0f0;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+.sender-label {
+    -fx-text-fill: #7eb8f7;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+.time-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.45);
+    -fx-font-size: 10px;
+    -fx-padding: 0 0 0 8;
+}
+
+/* ── Кнопки ──────────────────────────────── */
+.button {
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.btn-primary {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+}
+.btn-primary:hover { -fx-background-color: #1976D2; }
+.btn-primary:pressed { -fx-background-color: #1565C0; }
+
+.btn-secondary {
+    -fx-background-color: #383838;
+    -fx-text-fill: #d4d4d4;
+    -fx-background-radius: 8;
+}
+.btn-secondary:hover { -fx-background-color: #484848; }
+
+.btn-create {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-font-size: 15px;
+}
+.btn-create:hover  { -fx-background-color: #43A047; }
+.btn-create:pressed { -fx-background-color: #388E3C; }
+
+.btn-logout {
+    -fx-background-color: #c0392b;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+}
+.btn-logout:hover { -fx-background-color: #e74c3c; }
+
+/* ── Поля ввода ──────────────────────────── */
+.text-field {
+    -fx-background-color: #2b2b2b;
+    -fx-text-fill: #f0f0f0;
+    -fx-prompt-text-fill: #666;
+    -fx-background-radius: 10;
+    -fx-padding: 9 12;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+}
+.text-field:focused {
+    -fx-background-color: #323232;
+    -fx-border-color: #2196F3;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+
+/* ── PasswordField ───────────────────────── */
+.password-field {
+    -fx-background-color: #2b2b2b;
+    -fx-text-fill: #f0f0f0;
+    -fx-prompt-text-fill: #666;
+    -fx-background-radius: 10;
+    -fx-padding: 9 12;
+    -fx-font-size: 13px;
+}
+.password-field:focused {
+    -fx-background-color: #323232;
+    -fx-border-color: #2196F3;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+
+/* ── Диалоги ─────────────────────────────── */
+.dialog-pane {
+    -fx-background-color: #1e1e1e;
+}
+.dialog-pane .label {
+    -fx-text-fill: #d4d4d4;
+}
+.dialog-pane .button-bar .button {
+    -fx-background-color: #383838;
+    -fx-text-fill: #d4d4d4;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
