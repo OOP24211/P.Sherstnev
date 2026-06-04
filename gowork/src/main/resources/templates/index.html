@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>GoWork — Вход</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0d0d12;
+            --surface: #16161f;
+            --border: #2a2a38;
+            --accent: #7c6ef5;
+            --accent2: #e85d8a;
+            --text: #e8e8f0;
+            --muted: #6b6b80;
+            --success: #3ecf8e;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Анимированный фон */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 50%, rgba(124,110,245,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 80% 20%, rgba(232,93,138,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            padding: 40px;
+        }
+
+        /* Левая часть — брендинг */
+        .brand {
+            max-width: 360px;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 52px;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-desc {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .feature-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* Разделитель */
+        .divider {
+            width: 1px;
+            height: 280px;
+            background: linear-gradient(to bottom, transparent, var(--border), transparent);
+        }
+
+        /* Карточка входа */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            width: 360px;
+        }
+
+        .card-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-sub {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+
+        .success-banner {
+            background: rgba(62,207,142,0.1);
+            border: 1px solid rgba(62,207,142,0.2);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: var(--success);
+        }
+
+        .success-banner strong {
+            display: block;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .error-banner {
+            background: rgba(232,93,138,0.1);
+            border: 1px solid rgba(232,93,138,0.2);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: var(--accent2);
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        input[type="number"] {
+            display: block;
+            width: 100%;
+            padding: 13px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+            margin-bottom: 16px;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        input[type="number"]::placeholder { color: var(--muted); }
+
+        /* Убираем стрелки у number input */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+        .btn-primary {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, var(--accent), #6358d4);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: opacity 0.2s, transform 0.1s;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-primary:active { transform: scale(0.99); }
+
+        .register-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .register-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .register-link a:hover { text-decoration: underline; }
+
+        @media (max-width: 780px) {
+            .wrapper { flex-direction: column; gap: 32px; }
+            .brand { max-width: 100%; }
+            .divider { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="wrapper">
+    <div class="brand">
+        <div class="logo">Go<span>Work</span></div>
+        <p class="brand-desc">Твой личный планировщик задач. Держи всё под контролем — с тегами, дедлайнами и статусами.</p>
+        <div class="features">
+            <div class="feature-item"><div class="feature-dot"></div>Теги: Работа, Учёба, Дом, Здоровье</div>
+            <div class="feature-item"><div class="feature-dot" style="background:var(--accent2)"></div>Дедлайны и напоминания</div>
+            <div class="feature-item"><div class="feature-dot" style="background:var(--success)"></div>Статусы: не начато / в процессе / готово</div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card">
+        <div class="card-title">Добро пожаловать</div>
+        <div class="card-sub">Войди по своему ID</div>
+
+        <div class="success-banner" th:if="${param.registeredId}">
+            Регистрация прошла успешно!
+            <strong>Твой ID для входа: <span th:text="${param.registeredId}"></span></strong>
+            Сохрани его — он нужен для входа.
+        </div>
+
+        <div class="error-banner" th:if="${param.error}">
+            Пользователь с таким ID не найден
+        </div>
+
+        <form action="/login" method="post">
+            <label>Ваш ID</label>
+            <input type="number" name="userId" placeholder="Введите ID..." required>
+            <button type="submit" class="btn-primary">Войти →</button>
+        </form>
+
+        <div class="register-link">
+            Нет аккаунта? <a href="/register">Создать профиль</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

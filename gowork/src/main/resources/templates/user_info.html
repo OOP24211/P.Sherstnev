@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>GoWork — Кабинет</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0d0d12;
+            --surface: #16161f;
+            --surface2: #1c1c28;
+            --border: #2a2a38;
+            --accent: #7c6ef5;
+            --accent2: #e85d8a;
+            --text: #e8e8f0;
+            --muted: #6b6b80;
+            --success: #3ecf8e;
+            --warning: #f5a623;
+            --danger: #e85d8a;
+
+            /* Теги */
+            --tag-work-bg: rgba(124,110,245,0.15);
+            --tag-work-color: #a89ef8;
+            --tag-work-border: rgba(124,110,245,0.3);
+
+            --tag-study-bg: rgba(245,166,35,0.12);
+            --tag-study-color: #f5c842;
+            --tag-study-border: rgba(245,166,35,0.25);
+
+            --tag-home-bg: rgba(62,207,142,0.12);
+            --tag-home-color: #3ecf8e;
+            --tag-home-border: rgba(62,207,142,0.25);
+
+            --tag-health-bg: rgba(232,93,138,0.12);
+            --tag-health-color: #f080a8;
+            --tag-health-border: rgba(232,93,138,0.25);
+
+            --tag-other-bg: rgba(107,107,128,0.15);
+            --tag-other-color: #9090a8;
+            --tag-other-border: rgba(107,107,128,0.25);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ─── Навбар ─── */
+        .navbar {
+            background: rgba(22,22,31,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo span {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-user {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .nav-user strong { color: var(--text); }
+
+        .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* ─── Layout ─── */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* ─── Статистика ─── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px 24px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .stat-value.accent { color: var(--accent); }
+        .stat-value.success { color: var(--success); }
+
+        /* Прогресс-бар */
+        .progress-bar {
+            margin-top: 8px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        /* ─── Форма добавления ─── */
+        .add-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .add-card-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .plus-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+            line-height: 1;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+        .form-row.full { grid-template-columns: 1fr; }
+
+        input[type="text"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        select:focus { outline: none; border-color: var(--accent); }
+
+        input::placeholder, textarea::placeholder { color: var(--muted); }
+
+        select option { background: var(--surface); }
+
+        /* Убираем стрелки у date на webkit */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.5);
+        }
+
+        .btn-add {
+            padding: 11px 24px;
+            background: linear-gradient(135deg, var(--accent), #6358d4);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-add:hover { opacity: 0.9; }
+
+        /* ─── Фильтры ─── */
+        .filters-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-right: 4px;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+        .filter-chip.active { background: var(--accent); border-color: var(--accent); color: white; }
+        .filter-chip.clear { color: var(--danger); border-color: rgba(232,93,138,0.3); }
+        .filter-chip.clear:hover { background: var(--danger); color: white; border-color: var(--danger); }
+
+        /* ─── Таблица задач ─── */
+        .tasks-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .tasks-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tasks-header-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .tasks-count {
+            font-size: 12px;
+            color: var(--muted);
+            background: var(--bg);
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+
+        thead th {
+            padding: 12px 20px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface2);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+        td { padding: 16px 20px; vertical-align: middle; }
+
+        .task-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .task-title.done {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+
+        .task-desc {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* ─── Теги ─── */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+        }
+
+        .tag-work   { background: var(--tag-work-bg);   color: var(--tag-work-color);   border: 1px solid var(--tag-work-border); }
+        .tag-study  { background: var(--tag-study-bg);  color: var(--tag-study-color);  border: 1px solid var(--tag-study-border); }
+        .tag-home   { background: var(--tag-home-bg);   color: var(--tag-home-color);   border: 1px solid var(--tag-home-border); }
+        .tag-health { background: var(--tag-health-bg); color: var(--tag-health-color); border: 1px solid var(--tag-health-border); }
+        .tag-other  { background: var(--tag-other-bg);  color: var(--tag-other-color);  border: 1px solid var(--tag-other-border); }
+
+        /* ─── Статусы ─── */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-todo     { background: rgba(107,107,128,0.15); color: var(--muted); }
+        .status-todo::before { background: var(--muted); }
+
+        .status-progress { background: rgba(245,166,35,0.12); color: var(--warning); }
+        .status-progress::before { background: var(--warning); animation: blink 1.5s infinite; }
+
+        .status-done     { background: rgba(62,207,142,0.12); color: var(--success); }
+        .status-done::before { background: var(--success); }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ─── Дедлайн ─── */
+        .deadline {
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .deadline.overdue  { color: var(--danger); font-weight: 600; }
+        .deadline.soon     { color: var(--warning); }
+        .deadline.ok       { color: var(--muted); }
+        .deadline.none     { color: var(--border); }
+
+        /* ─── Действия ─── */
+        .actions-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-select {
+            padding: 5px 8px;
+            font-size: 11px;
+            border-radius: 7px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: color 0.2s, background 0.2s;
+            line-height: 1;
+        }
+
+        .btn-delete:hover {
+            color: var(--danger);
+            background: rgba(232,93,138,0.1);
+        }
+
+        /* ─── Пустое состояние ─── */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-state .emoji { font-size: 40px; margin-bottom: 12px; }
+        .empty-state p { font-size: 14px; }
+
+        @media (max-width: 700px) {
+            .stats-row { grid-template-columns: 1fr; }
+            .form-row, .form-row.three { grid-template-columns: 1fr; }
+            td:nth-child(3), th:nth-child(3) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Навбар -->
+<nav class="navbar">
+    <div class="nav-logo">Go<span>Work</span></div>
+    <div class="nav-right">
+        <div class="nav-user">Привет, <strong th:text="${user.name}">User</strong></div>
+        <a href="/" class="logout-btn">↩ Выйти</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- Статистика -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-label">Всего задач</div>
+            <div class="stat-value accent" th:text="${totalTasks}">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Выполнено</div>
+            <div class="stat-value success" th:text="${doneTasks}">0</div>
+            <div class="progress-bar">
+                <div class="progress-fill"
+                     th:style="${totalTasks > 0} ? 'width: ' + (${doneTasks} * 100 / ${totalTasks}) + '%' : 'width: 0%'">
+                </div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Осталось</div>
+            <div class="stat-value" th:text="${totalTasks - doneTasks}">0</div>
+        </div>
+    </div>
+
+    <!-- Форма добавления задачи -->
+    <div class="add-card">
+        <div class="add-card-title">
+            <span class="plus-icon">+</span>
+            Новая задача
+        </div>
+        <form th:action="@{/dashboard/{id}/add-task(id=${user.id})}" method="post">
+            <div class="form-row">
+                <input type="text" name="title" placeholder="Что нужно сделать?" required>
+                <input type="text" name="description" placeholder="Подробности (необязательно)">
+            </div>
+            <div class="form-row three" style="align-items:end;">
+                <div>
+                    <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; display:block; margin-bottom:6px;">Тег</label>
+                    <select name="tag">
+                        <option value="">— Без тега —</option>
+                        <option value="WORK">💼 Работа</option>
+                        <option value="STUDY">📚 Учёба</option>
+                        <option value="HOME">🏠 Дом</option>
+                        <option value="HEALTH">💪 Здоровье</option>
+                        <option value="OTHER">📌 Другое</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; display:block; margin-bottom:6px;">Дедлайн</label>
+                    <input type="date" name="deadline">
+                </div>
+                <button type="submit" class="btn-add">Добавить →</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Фильтры -->
+    <div class="filters-row">
+        <span class="filter-label">Тег:</span>
+        <a th:href="@{/dashboard/{id}(id=${user.id}, status=${activeStatus})}"
+           th:class="${activeTag == null} ? 'filter-chip active' : 'filter-chip'">Все</a>
+        <a th:href="@{/dashboard/{id}(id=${user.id}, tag='WORK', status=${activeStatus})}"
+           th:class="${activeTag == 'WORK'} ? 'filter-chip active' : 'filter-chip'">💼 Работа</a>
+        <a th:href="@{/dashboard/{id}(id=${user.id}, tag='STUDY', status=${activeStatus})}"
+           th:class="${activeTag == 'STUDY'} ? 'filter-chip active' : 'filter-chip'">📚 Учёба</a>
+        <a th:href="@{/dashboard/{id}(id=${user.id}, tag='HOME', status=${activeStatus})}"
+           th:class="${activeTag == 'HOME'} ? 'filter-chip active' : 'filter-chip'">🏠 Дом</a>
+        <a th:href="@{/dashboard/{id}(id=${user.id}, tag='HEALTH', status=${activeStatus})}"
+           th:class="${activeTag == 'HEALTH'} ? 'filter-chip active' : 'filter-chip'">💪 Здоровье</a>
+
+        <span class="filter-label" style="margin-left:12px;">Статус:</span>
+        <a th:href="@{/dashboard/{id}(id=${user.id}, tag=${activeTag})}"
+           th:class="${activeStatus == null} ? 'filter-chip active' : 'filter-chip'">Все</a>
+        <a th:href="@{/dashboard/{id}(id=${user.id}, tag=${activeTag}, status='TODO')}"
+           th:class="${activeStatus == 'TODO'} ? 'filter-chip active' : 'filter-chip'">Не начато</a>
+        <a th:href="@{/dashboard/{id}(id=${user.id}, tag=${activeTag}, status='IN_PROGRESS')}"
+           th:class="${activeStatus == 'IN_PROGRESS'} ? 'filter-chip active' : 'filter-chip'">В процессе</a>
+        <a th:href="@{/dashboard/{id}(id=${user.id}, tag=${activeTag}, status='DONE')}"
+           th:class="${activeStatus == 'DONE'} ? 'filter-chip active' : 'filter-chip'">Готово</a>
+
+        <a th:if="${activeTag != null or activeStatus != null}"
+           th:href="@{/dashboard/{id}(id=${user.id})}"
+           class="filter-chip clear">✕ Сбросить</a>
+    </div>
+
+    <!-- Таблица задач -->
+    <div class="tasks-card">
+        <div class="tasks-header">
+            <div class="tasks-header-title">Задачи</div>
+            <div class="tasks-count" th:text="${tasks.size()} + ' задач'">0 задач</div>
+        </div>
+
+        <div th:if="${tasks.isEmpty()}" class="empty-state">
+            <div class="emoji">✅</div>
+            <p>Задач нет — добавь первую выше!</p>
+        </div>
+
+        <table th:if="${!tasks.isEmpty()}">
+            <thead>
+            <tr>
+                <th>Задача</th>
+                <th>Тег</th>
+                <th>Дедлайн</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task : ${tasks}">
+                <!-- Задача -->
+                <td>
+                    <div th:class="${task.status.name() == 'DONE'} ? 'task-title done' : 'task-title'"
+                         th:text="${task.title}">Title</div>
+                    <div class="task-desc" th:text="${task.description}" th:if="${task.description != null and !task.description.isBlank()}">Description</div>
+                </td>
+
+                <!-- Тег -->
+                <td>
+                    <span th:if="${task.tag != null}"
+                          th:class="'tag ' + ${task.tag.cssClass}"
+                          th:text="${task.tag.label}">Тег</span>
+                    <span th:if="${task.tag == null}" style="color:var(--border); font-size:12px;">—</span>
+                </td>
+
+                <!-- Дедлайн -->
+                <td>
+                    <span th:if="${task.deadline == null}" class="deadline none">—</span>
+                    <span th:if="${task.deadline != null and task.deadline.isBefore(today)}" class="deadline overdue">
+                        ⚠ <span th:text="${task.deadline}"></span>
+                    </span>
+                    <span th:if="${task.deadline != null and !task.deadline.isBefore(today) and task.deadline.isBefore(today.plusDays(3))}" class="deadline soon">
+                        🔥 <span th:text="${task.deadline}"></span>
+                    </span>
+                    <span th:if="${task.deadline != null and !task.deadline.isBefore(today.plusDays(3))}" class="deadline ok">
+                        📅 <span th:text="${task.deadline}"></span>
+                    </span>
+                </td>
+
+                <!-- Статус -->
+                <td>
+                    <span th:class="'status-badge ' + ${task.status.cssClass}"
+                          th:text="${task.status.label}">Статус</span>
+                </td>
+
+                <!-- Действия -->
+                <td>
+                    <div class="actions-cell">
+                        <!-- Смена статуса -->
+                        <form th:action="@{/dashboard/{userId}/set-status/{taskId}(userId=${user.id}, taskId=${task.id})}" method="post">
+                            <select name="status" class="status-select" onchange="this.form.submit()">
+                                <option value="TODO"        th:selected="${task.status.name() == 'TODO'}">Не начато</option>
+                                <option value="IN_PROGRESS" th:selected="${task.status.name() == 'IN_PROGRESS'}">В процессе</option>
+                                <option value="DONE"        th:selected="${task.status.name() == 'DONE'}">Готово</option>
+                            </select>
+                        </form>
+
+                        <!-- Удаление -->
+                        <form th:action="@{/dashboard/{userId}/delete-task/{taskId}(userId=${user.id}, taskId=${task.id})}" method="post">
+                            <button type="submit" class="btn-delete" onclick="return confirm('Удалить задачу?')" title="Удалить">✕</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
